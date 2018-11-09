@@ -8,7 +8,11 @@
 #ifndef ATTRIBUT_H
 #define ATTRIBUT_H
 
-typedef int symb_value_type;  // dummy definition
+
+typedef int {
+int value;
+char* type; 
+} symb_value_type;  // dummy definition
 
 
 

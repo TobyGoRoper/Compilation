@@ -19,6 +19,11 @@ void yyerror (char* s) {
 
 %}
 
+%union{
+  symb_val_type val;
+  car * sid; 
+}
+
 
 %token NUM FLOAT ID STRING
 
