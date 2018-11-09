@@ -63,7 +63,7 @@ aff : aff_id
 | aff_fun
 ;
 
-aff_id : ID EQ exp { set_symbol_value($1,$3); printf("%s de type <> vaut %d", $1,$3)}
+aff_id : ID EQ exp  { set_symbol_value($1,$3); printf("%s de type <> vaut %d", $1,$3);}
 ;
 
 aff_fun : fun_head EQ exp
