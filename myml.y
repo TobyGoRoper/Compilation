@@ -5,7 +5,7 @@
 #include "Attribut.h"  // header included in y.tab.h
 
 }
-\\test pour github
+
 %{
 #include <stdio.h>
 
