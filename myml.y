@@ -54,12 +54,12 @@ prog : inst PV
 | prog inst PV
 ;
 
-inst : aff
+inst : aff {$$ = $1}
 | exp
 ;
 
 
-aff : aff_id
+aff : aff_id {$$ = $1}
 | aff_fun
 ;
 
@@ -78,7 +78,7 @@ id_list : ID
 
 
 exp : arith_exp
-| atom_exp
+| atom_exp {$$ = $1}
 | control_exp
 | let_exp
 | LPAR funcall_exp RPAR
@@ -90,12 +90,12 @@ arith_exp : MOINS exp %prec UNA
 | exp CONCAT exp
 ;
 
-atom_exp : NUM
-| FLOAT
-| STRING
-| ID
-| list_exp
-| LPAR exp RPAR
+atom_exp : NUM {$$ = $1}
+| FLOAT {$$ = $1}
+| STRING {$$ = $1}
+| ID {$$ = $1}
+| list_exp {$$ = $1}
+| LPAR exp RPAR {$$ = $1}
 ;
 
 control_exp : IF bool THEN atom_exp ELSE atom_exp
