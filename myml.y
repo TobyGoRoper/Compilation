@@ -9,7 +9,7 @@
 %{
 #include <stdio.h>
 
-  
+
 extern int yylex();
 extern int yyparse();
 
@@ -44,8 +44,8 @@ void yyerror (char* s) {
 %nonassoc UNA    /* pseudo token pour assurer une priorite locale */
 
 
-%start prog 
- 
+%start prog
+
 
 
 %%
@@ -63,13 +63,13 @@ aff : aff_id
 | aff_fun
 ;
 
-aff_id : ID EQ exp
+aff_id : ID EQ exp { set_symbol_value($1,$3); printf("%s de type <> vaut %d", $1,$3)}
 ;
 
 aff_fun : fun_head EQ exp
 ;
 
-fun_head : ID id_list 
+fun_head : ID id_list
 ;
 
 id_list : ID
@@ -84,7 +84,7 @@ exp : arith_exp
 | LPAR funcall_exp RPAR
 ;
 
-arith_exp : MOINS exp %prec UNA 
+arith_exp : MOINS exp %prec UNA
 | exp PLUS exp
 | exp MULT exp
 | exp CONCAT exp
@@ -98,7 +98,7 @@ atom_exp : NUM
 | LPAR exp RPAR
 ;
 
-control_exp : IF bool THEN atom_exp ELSE atom_exp 
+control_exp : IF bool THEN atom_exp ELSE atom_exp
 ;
 
 let_exp : LET aff IN atom_exp
@@ -122,7 +122,7 @@ exp_list : exp
 bool : BOOL
 | bool OR bool
 | bool AND bool
-| NOT bool %prec UNA 
+| NOT bool %prec UNA
 | exp comp exp
 | LPAR bool RPAR
 ;
@@ -131,8 +131,7 @@ bool : BOOL
 comp :  ISLT | ISGT | ISLEQ | ISGEQ | ISEQ
 ;
 
-%% 
+%%
 int main () {
  return yyparse ();
-} 
-
+}
