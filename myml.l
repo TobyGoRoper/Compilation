@@ -1,7 +1,7 @@
 %option noyywrap
 /* avoid dependency with library fl */
 
-%{ 
+%{
 #include "y.tab.h"
 #include "Table_des_symboles.h"
 #include <stdio.h>
@@ -24,7 +24,7 @@ escape              \\([\\"'ntbr ])
 string              \"({escape}|[^"\\])*\"
 
 
-%% 
+%%
 "++"         {return CONCAT;}
 "+"          {return PLUS;}
 "-"          {return MOINS;}
