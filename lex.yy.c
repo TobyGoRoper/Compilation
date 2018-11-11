@@ -769,72 +769,72 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 28 "myml.l"
-{yylval = "++"; return CONCAT;}
+{ return CONCAT;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 29 "myml.l"
-{yylval = "+"; return PLUS;}
+{ return PLUS;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 30 "myml.l"
-{yylval = "-"; return MOINS;}
+{ return MOINS;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 31 "myml.l"
-{yylval = "*"; return MULT;}
+{ return MULT;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 32 "myml.l"
-{yylval = "/"; return DIV;}
+{ return DIV;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 33 "myml.l"
-{yylval = "="; return EQ;}
+{ return EQ;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 34 "myml.l"
-{yylval = "<"; return ISLT;}
+{ return ISLT;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 35 "myml.l"
-{yylval = ">"; return ISGT;}
+{ return ISGT;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 36 "myml.l"
-{yylval = "<="; return ISLEQ;}
+{ return ISLEQ;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 37 "myml.l"
-{yylval = ">="; return ISGEQ;}
+{ return ISGEQ;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 38 "myml.l"
-{yylval = "=="; return ISEQ;}
+{ return ISEQ;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 39 "myml.l"
-{yylval = "!"; return NOT;}
+{ return NOT;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 40 "myml.l"
-{yylval = "&&"; return AND;}
+{ return AND;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 41 "myml.l"
-{yylval = "||"; return OR;}
+{ return OR;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
@@ -904,12 +904,12 @@ YY_RULE_SETUP
 case 28:
 YY_RULE_SETUP
 #line 60 "myml.l"
-{yyval = atoi(yytext); return NUM; }
+{yylval.val.value = atoi(yytext); yylval.val.type=Int; return NUM; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 61 "myml.l"
-{yyval = yytext; return ID;}
+{yylval.sid = string_to_sid(yytext); return ID;}
 	YY_BREAK
 case 30:
 /* rule 30 can match eol */

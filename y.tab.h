@@ -47,7 +47,7 @@ extern int yydebug;
 
 
 
-#include "Attribut.h"  // header included in y.tab.h
+#include "Table_des_symboles.h"  // header included in y.tab.h
 
 
 #line 54 "y.tab.h" /* yacc.c:1912  */
@@ -125,7 +125,18 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 22 "myml.y" /* yacc.c:1912  */
+
+  symb_value_type val;
+  char * sid;
+
+#line 137 "y.tab.h" /* yacc.c:1912  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

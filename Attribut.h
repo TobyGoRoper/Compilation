@@ -8,11 +8,15 @@
 #ifndef ATTRIBUT_H
 #define ATTRIBUT_H
 
+typedef enum {Int, Float} symb_type ;
 
-typedef int {
+typedef struct{
 int value;
-char* type; 
-} symb_value_type;  // dummy definition
+symb_type type;
+} symb_value_type;
+
+char* getType(symb_type);
+
 
 
 

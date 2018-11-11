@@ -2,7 +2,7 @@
 %code requires {
 
 
-#include "Attribut.h"  // header included in y.tab.h
+#include "Table_des_symboles.h"  // header included in y.tab.h
 
 }
 
@@ -20,12 +20,22 @@ void yyerror (char* s) {
 %}
 
 %union{
-  symb_val_type val;
-  car * sid; 
+  symb_value_type val;
+  char * sid;
 }
 
 
-%token NUM FLOAT ID STRING
+
+%type <val> atom_exp
+%type <val> arith_exp
+%type <val> let_exp
+
+%token NUM
+%type <val> NUM
+%token <val> FLOAT
+%token ID
+%type <sid> ID
+%token STRING
 
 %token PV LPAR RPAR LBR RBR LET IN VIR
 
@@ -40,7 +50,7 @@ void yyerror (char* s) {
 %left OR
 %left AND
 
-
+%type <val> exp
 
 %token PLUS MOINS MULT DIV EQ
 %left PLUS
@@ -59,16 +69,16 @@ prog : inst PV
 | prog inst PV
 ;
 
-inst : aff {$$ = $1}
+inst : aff
 | exp
 ;
 
 
-aff : aff_id {$$ = $1}
+aff : aff_id
 | aff_fun
 ;
 
-aff_id : ID EQ exp  { set_symbol_value($1,$3); printf("%s de type <> vaut %d", $1,$3);}
+aff_id : ID EQ exp  { set_symbol_value($1,$3); printf("%s de type <%s> vaut %d\n", $1,getType($3.type),$3.value);}
 ;
 
 aff_fun : fun_head EQ exp
@@ -83,31 +93,37 @@ id_list : ID
 
 
 exp : arith_exp
-| atom_exp {$$ = $1}
+| atom_exp {$$ = $1;}/*{printf("%d\n", $1.value);} Il faudra faire un switch pour l'affichage*/
 | control_exp
 | let_exp
 | LPAR funcall_exp RPAR
 ;
 
 arith_exp : MOINS exp %prec UNA
-| exp PLUS exp
+| exp PLUS exp {
+                $$.type = Int;
+                $$.value = $1.value + $3.value;
+                printf("<exp> de type <%s> vaut %d\n", getType($$.type), $$.value);
+                }
 | exp MULT exp
 | exp CONCAT exp
 ;
 
-atom_exp : NUM {$$ = $1}
-| FLOAT {$$ = $1}
-| STRING {$$ = $1}
-| ID {$$ = $1}
-| list_exp {$$ = $1}
-| LPAR exp RPAR {$$ = $1}
+atom_exp : NUM {$$.value = $1.value;}
+| FLOAT
+| STRING
+| ID {$$ = get_symbol_value($1);}
+| list_exp
+| LPAR exp RPAR {$$ = $2;}
 ;
 
 control_exp : IF bool THEN atom_exp ELSE atom_exp
 ;
 
-let_exp : LET aff IN atom_exp
+let_exp : let2 aff IN atom_exp {$$ = $4;lessStorage();}
 ;
+
+let2 : LET {moreStorage();}
 
 funcall_exp : ID atom_list
 ;

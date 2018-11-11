@@ -25,20 +25,20 @@ string              \"({escape}|[^"\\])*\"
 
 
 %%
-"++"         {yylval = "++"; return CONCAT;}
-"+"          {yylval = "+"; return PLUS;}
-"-"          {yylval = "-"; return MOINS;}
-"*"          {yylval = "*"; return MULT;}
-"/"          {yylval = "/"; return DIV;}
-"="          {yylval = "="; return EQ;}
-"<"          {yylval = "<"; return ISLT;}
-">"          {yylval = ">"; return ISGT;}
-"<="         {yylval = "<="; return ISLEQ;}
-">="         {yylval = ">="; return ISGEQ;}
-"=="         {yylval = "=="; return ISEQ;}
-"!"          {yylval = "!"; return NOT;}
-"&&"         {yylval = "&&"; return AND;}
-"||"         {yylval = "||"; return OR;}
+"++"         { return CONCAT;}
+"+"          { return PLUS;}
+"-"          { return MOINS;}
+"*"          { return MULT;}
+"/"          { return DIV;}
+"="          { return EQ;}
+"<"          { return ISLT;}
+">"          { return ISGT;}
+"<="         { return ISLEQ;}
+">="         { return ISGEQ;}
+"=="         { return ISEQ;}
+"!"          { return NOT;}
+"&&"         { return AND;}
+"||"         { return OR;}
 
 "let"        {return LET;}
 "in"         {return IN;}
@@ -57,7 +57,7 @@ string              \"({escape}|[^"\\])*\"
 ";"          {return PV;}
 
 {float}      {return FLOAT; }
-{integer}    {yyval = atoi(yytext); return NUM; }
-{identifier} {yyval = yytext; return ID;}
+{integer}    {yylval.val.value = atoi(yytext); yylval.val.type=Int; return NUM; }
+{identifier} {yylval.sid = string_to_sid(yytext); return ID;}
 {string}     {return STRING;}
 {whitespace} ;
