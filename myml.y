@@ -29,6 +29,11 @@ void yyerror (char* s) {
 %type <val> atom_exp
 %type <val> arith_exp
 %type <val> let_exp
+%type <val> bool
+%type <val> comp
+%type <val> control_exp
+
+
 
 %token NUM
 %type <val> NUM
@@ -117,7 +122,7 @@ atom_exp : NUM {$$.value = $1.value;}
 | LPAR exp RPAR {$$ = $2;}
 ;
 
-control_exp : IF bool THEN atom_exp ELSE atom_exp
+control_exp : IF bool THEN atom_exp ELSE atom_exp {$$.value = branch($2.value, $4.value, $6.value);}
 ;
 
 let_exp : let2 aff IN atom_exp {$$ = $4;lessStorage();}
@@ -144,12 +149,17 @@ bool : BOOL
 | bool OR bool
 | bool AND bool
 | NOT bool %prec UNA
-| exp comp exp
-| LPAR bool RPAR
+| exp comp exp {$$.value = comp($1.value,$3.value,$2.value);}
+
+| LPAR bool RPAR 
 ;
 
 
-comp :  ISLT | ISGT | ISLEQ | ISGEQ | ISEQ
+comp : ISLT  {$$.value=0;}
+| ISGT {$$.value=1;}
+| ISLEQ {$$.value=2;}
+| ISGEQ {$$.value=3;}
+| ISEQ {$$.value=4;}
 ;
 
 %%

@@ -17,6 +17,9 @@ symb_type type;
 
 char* getType(symb_type);
 
+int comp(int g, int d, int op);
+
+int branch(int b, int t, int e);
 
 
 
