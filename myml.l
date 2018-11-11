@@ -1,5 +1,5 @@
 %option noyywrap
-/* avoid dependency with library fl */
+/* avoid dependency with library fl  ookkkk*/
 
 %{
 #include "y.tab.h"
