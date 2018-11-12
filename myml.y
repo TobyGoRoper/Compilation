@@ -122,7 +122,14 @@ atom_exp : NUM {$$.value = $1.value;}
 | LPAR exp RPAR {$$ = $2;}
 ;
 
-control_exp : IF bool THEN atom_exp ELSE atom_exp {$$.value = branch($2.value, $4.value, $6.value);}
+control_exp : IF bool THEN atom_exp ELSE atom_exp {
+  $$.value = $2.value;
+  printf("moi c bool %d\n", $2.value);
+  if ($$.value == true)
+    $$ = $4;
+  else
+    $$ = $6;
+}
 ;
 
 let_exp : let2 aff IN atom_exp {$$ = $4;lessStorage();}
@@ -149,9 +156,11 @@ bool : BOOL
 | bool OR bool
 | bool AND bool
 | NOT bool %prec UNA
-| exp comp exp {$$.value = comp($1.value,$3.value,$2.value);}
+| exp comp exp {$$.value = comp($1.value,$3.value,$2.value);
+  printf("moi c valueaser %d\n", $$.value);
+}
 
-| LPAR bool RPAR 
+| LPAR bool RPAR
 ;
 
 

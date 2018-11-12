@@ -5,7 +5,7 @@
 
 #include "Attribut.h"
 #include <stdio.h>
-
+#define MAX 10
 
 
 
@@ -22,8 +22,7 @@ char* getType(symb_type t)
 // return a bool for a comparaison
 int comp(int g, int d, int op)
 {
-  printf("je suis dans comp\n");
-  int a=0;
+  bool a=false;
   switch(op)
   {
     case 0: //LT

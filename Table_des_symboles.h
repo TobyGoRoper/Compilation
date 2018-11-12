@@ -18,7 +18,7 @@
 
 #include "Table_des_chaines.h"
 #include "Attribut.h"
-
+#include <stdbool.h>
 
 /* type of values stored with symbols */
 
@@ -30,7 +30,7 @@ symb_value_type get_symbol_value(sid symb_id);
 symb_value_type set_symbol_value(sid symb_id,symb_value_type value);
 
 
-// used to create another table in order to allow let 
+// used to create another table in order to allow let
 void moreStorage();
 void lessStorage();
 

@@ -7,11 +7,13 @@
 
 #ifndef ATTRIBUT_H
 #define ATTRIBUT_H
+#include <stdbool.h>
 
 typedef enum {Int, Float} symb_type ;
 
 typedef struct{
 int value;
+bool boule;
 symb_type type;
 } symb_value_type;
 
