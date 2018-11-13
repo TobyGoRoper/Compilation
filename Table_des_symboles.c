@@ -22,18 +22,47 @@ typedef struct elem {
 } elem;
 
 /* linked chain initial element */
-static elem * storage=NULL;
+static elem** storage=NULL;
+//static elem** tables=NULL;
+static int compteur=0;
+
+
+void moreStorage()
+{
+	compteur+=1;
+	storage[compteur]=NULL;
+}
+void cleanStorage()
+{
+	elem* tracker = storage[compteur];
+	elem* next = tracker->next;
+
+
+	while (tracker)
+	{
+		free(tracker);
+		tracker = next;
+		next = tracker->next;
+	}
+
+}
+void lessStorage()
+{
+	compteur-=1;
+}
+
+
 
 /* get the symbol value of symb_id from the symbol table */
 symb_value_type get_symbol_value(sid symb_id) {
-	elem * tracker=storage;
+	elem * tracker=storage[compteur];
 
 	/* look into the linked list for the symbol value */
 	while (tracker) {
-		if (tracker -> symbol_name == symb_id) return tracker -> symbol_value; 
+		if (tracker -> symbol_name == symb_id) return tracker -> symbol_value;
 		tracker = tracker -> next;
 	}
-    
+
 	/* if not found does cause an error */
 	fprintf(stderr,"Error : symbol %s have no defined value\n",(char *) symb_id);
 	exit(-1);
@@ -42,17 +71,20 @@ symb_value_type get_symbol_value(sid symb_id) {
 /* set the value of symbol symb_id to value */
 symb_value_type set_symbol_value(sid symb_id,symb_value_type value) {
 
+	if (storage == NULL)
+		storage = malloc(sizeof(elem*)) ;
+
 	elem * tracker;
-	
+
 	/* (optionnal) check that sid is valid symbol name and exit error if not */
 	if (! sid_valid(symb_id)) {
 		fprintf(stderr,"Error : symbol id %p is not have no valid sid\n",symb_id);
 		exit(-1);
 	}
-		
+
 	/* look for the presence of symb_id in storage */
-	
-	tracker = storage;
+
+	tracker = storage[compteur];
 	while (tracker) {
 		if (tracker -> symbol_name == symb_id) {
 			tracker -> symbol_value = value;
@@ -60,14 +92,14 @@ symb_value_type set_symbol_value(sid symb_id,symb_value_type value) {
 		}
 		tracker = tracker -> next;
 	}
-	
+
 	/* otherwise insert it at head of storage with proper value */
-	
+
+
 	tracker = malloc(sizeof(elem));
 	tracker -> symbol_name = symb_id;
 	tracker -> symbol_value = value;
-	tracker -> next = storage;
-	storage = tracker;
-	return storage -> symbol_value;
+	tracker -> next = storage[compteur];
+	storage[compteur] = tracker;
+	return storage[compteur] -> symbol_value;
 }
-
